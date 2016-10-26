@@ -20,6 +20,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
+      editable: false,
       widgets: {
         test: {
           type: Test,
@@ -51,7 +52,7 @@ class App extends React.Component {
     };
   }
 
-  dropped(e) {
+  updateState(e) {
     var updatedColumns = [];
 
     e.rows.map(row => {
@@ -69,10 +70,31 @@ class App extends React.Component {
     });
   }
 
+  drag(e) {
+    this.updateState(e);
+  }
+
+  remove(e) {
+    this.updateState(e);
+  }
+
+  edit() {
+    if (this.state.editable)
+      this.setState({ editable: false });
+    else
+      this.setState({ editable: true });
+  }
+
   render() {
     return (
       <div className="container" id="app">
-        <Dashboard editable={true} onMove={this.dropped.bind(this)} widgets={this.state.widgets} layout={this.state.layout} />
+        <button onClick={this.edit.bind(this)}>edit</button>
+        <br/>
+        <Dashboard editable={this.state.editable}
+                   onMove={this.drag.bind(this)}
+                   onRemove={this.remove.bind(this)}
+                   widgets={this.state.widgets}
+                   layout={this.state.layout} />
       </div>
     );
   }

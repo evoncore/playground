@@ -1,0 +1,175 @@
+
+// Reset
+
+*
+  outline none
+
+ul
+  padding 0
+  margin 0
+  list-style none
+
+a
+  &:hover, &:active, &:focus
+    text-decoration none
+    color #222
+
+// End Reset
+
+
+// Main Settings
+
+*
+  outline none
+
+html, body
+  min-height 100%
+
+body
+  background url('../img/black-orchid.png'), #111
+  font-family $mf
+
+h1
+  color #222
+  font-family $mf
+  &.title
+    margin-top 0
+    margin-bottom 20px
+    color #222
+    font-weight 700
+
+p
+  fonts(15px)
+  color #111
+
+.container
+  padding 0 10px
+
+.icon
+  font-family $if
+  &.fa
+    font-family FontAwesome
+    &:before
+      font-size 18px !important
+      line-height 21px
+
+input
+  display block
+  background #333
+  color $mfc
+  padding 10px 15px
+  transition()
+  bs_pattern(#333)
+  font-size 16px
+  border 2px solid transparent
+  margin-top 20px
+
+button
+  display block
+  border 0
+  border-radius 0
+  background #333
+  color $mfc
+  padding 10px 15px
+  transition()
+  bs_pattern(#333)
+  font-size 16px
+  margin-top 20px
+  font-weight 400
+  &:hover
+    color $mc
+  &:active
+    bs_pattern_negative(#333)
+
+.error-text
+  color $mnc
+
+.error-input
+  border 2px solid $mnc
+
+
+
+// App
+
+#app
+  background #eaeaea
+  color #111
+  bs_pattern(#eaeaea)
+  padding 20px
+
+
+// Root
+
+#root
+  height 100%
+  padding-top 40px
+  & > *
+    min-height 100%
+
+
+// Header
+
+header
+  margin-bottom 20px
+  background #eaeaea
+  color #111
+  bs_pattern(#eaeaea)
+  ul
+    padding 15px 0
+  li
+    display inline-block
+    margin 0 15px
+    a
+      color #111
+      font-size 20px
+      transition()
+      &:hover
+        color $mnc
+
+
+// User
+
+.user-password-item, .user-password-item-add
+  display block
+  margin-top 20px
+  height 46px
+  max-width 280px
+  &:hover .user-password-remove-item
+    opacity 1
+  &:hover .user-password-add-item
+    opacity 1
+  input
+    display inline-block
+    font-weight 400
+    margin 0
+    height 100%
+    transition()
+    &.saved
+      background #2d924e
+      bs_pattern(#2d924e)
+    &.error
+      background #921f30
+      bs_pattern(#921f30)
+  .user-password-remove-item, .user-password-add-item
+    opacity 0
+    content ''
+    display inline-block
+    position relative
+    height 100%
+    background #555
+    color $mfc
+    padding 10px 15px
+    transition()
+    bs_pattern(#555)
+    font-size 15px
+    border 2px solid transparent
+    font-family $if
+    ts_pattern($mfc)
+    top 3px
+    &:active
+      bs_pattern_negative(#555)
+    &:hover
+      opacity 1
+
+.ant-steps-item
+  display inline-block

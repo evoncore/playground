@@ -97,11 +97,7 @@ class App extends React.Component {
   add(e, row, col) {
     var obj = {key: 'test3'};
 
-    var rows = [];
-
-    this.state.layout.rows.map(el => {
-      rows.push(el);
-    });
+    var rows = this.state.layout.rows;
 
     var target = rows[row].columns[col];
     target.widgets.push(obj);

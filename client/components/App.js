@@ -20,7 +20,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      editable: false,
+      editable: true,
       widgets: {
         test: {
           type: Test,
@@ -38,6 +38,15 @@ class App extends React.Component {
       layout: {
         rows: [{
           columns: [{
+            className: 'col-md-4',
+            widgets: [{key: 'test'}],
+          }, {
+            className: 'col-md-4',
+            widgets: [{key: 'test2'}],
+          }, {
+            className: 'col-md-4',
+            widgets: [{key: 'test3'}],
+          },{
             className: 'col-md-4',
             widgets: [{key: 'test'}],
           }, {
@@ -85,6 +94,23 @@ class App extends React.Component {
       this.setState({ editable: true });
   }
 
+  add(e, row, col) {
+    var obj = {key: 'test3'};
+
+    var rows = [];
+    var columns = [];
+
+    this.state.layout.rows.map(el => {
+      rows.push(el);
+      columns = el.columns[col].widgets;
+    });
+
+    var target = rows[row].columns[col];
+    target.widgets.push(obj);
+
+    this.updateState(e);
+  }
+
   render() {
     return (
       <div className="container" id="app">
@@ -93,6 +119,7 @@ class App extends React.Component {
         <Dashboard editable={this.state.editable}
                    onMove={this.drag.bind(this)}
                    onRemove={this.remove.bind(this)}
+                   onAdd={this.add.bind(this)}
                    widgets={this.state.widgets}
                    layout={this.state.layout} />
       </div>

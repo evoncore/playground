@@ -111,9 +111,9 @@ class App extends React.Component {
     if (container) {
       var colMedia = 'md';
       var colClasses = [
-        'col-' + colMedia + '-1', 'col-' + colMedia + '-2', 'col-' + colMedia + '-3',
-        'col-' + colMedia + '-4', 'col-' + colMedia + '-5', 'col-' + colMedia + '-6',
-        'col-' + colMedia + '-7', 'col-' + colMedia + '-8', 'col-' + colMedia + '-9',
+        'col-' + colMedia + '-1',  'col-' + colMedia + '-2',  'col-' + colMedia + '-3',
+        'col-' + colMedia + '-4',  'col-' + colMedia + '-5',  'col-' + colMedia + '-6',
+        'col-' + colMedia + '-7',  'col-' + colMedia + '-8',  'col-' + colMedia + '-9',
         'col-' + colMedia + '-10', 'col-' + colMedia + '-11', 'col-' + colMedia + '-12',
       ];
 
@@ -129,7 +129,8 @@ class App extends React.Component {
 
         var colvalue = colClasses.length;
         var colsize;
-        var mouseDownTarget;
+
+        var that;
 
         var drag = {
           begin: null,
@@ -137,11 +138,12 @@ class App extends React.Component {
           count: null
         };
 
+        col.addEventListener('mousedown', (e) => {
+          that = e.target.closest('.editable-column');
+          drag.begin = that.clientWidth;
+        });
+
         document.addEventListener('mouseup', () => {
-          var that = mouseDownTarget;
-
-          console.log(that);
-
           if (that) {
             drag.end = that.clientWidth;
 
@@ -180,14 +182,8 @@ class App extends React.Component {
             }
 
             that.classList.add('col-' + colMedia + '-' + drag.count);
-            mouseDownTarget = undefined;
+            that = undefined;
           }
-        });
-
-        col.addEventListener('mousedown', (e) => {
-          var that = e.target.closest('.editable-column');
-          mouseDownTarget = that;
-          drag.begin = that.clientWidth;
         });
 
       });

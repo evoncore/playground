@@ -129,6 +129,7 @@ class App extends React.Component {
       var colvalue = colClasses.length;
       var colsize;
       var mouseDownTarget;
+
       var drag = {
         begin: null,
         end: null,
@@ -136,7 +137,7 @@ class App extends React.Component {
       };
 
       document.addEventListener('mouseup', (e) => {
-        var that = e.target.closest('.editable-column') || mouseDownTarget;
+        var that = mouseDownTarget;
 
         if (that) {
           drag.end = that.clientWidth;
@@ -154,36 +155,46 @@ class App extends React.Component {
           that.style.width = '';
           that.classList.remove('col-' + colMedia + '-' + drag.count);
 
-          for (let i = 0; i < colvalue; i++) {
-            if (drag.end >= colSize(i - 1) && drag.end <= colSize(i + 1) && drag.count < colvalue) {
-              drag.count = drag.end >= colSize(i - 1) && drag.end >= colSize(i) ? (i + 1) : i;
-            } else if (drag.end > drag.begin && drag.end >= container) {
-              drag.count = colsize + (colvalue - colsize);
-            } else if (drag.end > drag.begin && drag.count > 10 && drag.count < colvalue) {
-              drag.count++;
-            }
-          }
-
-          if (drag.count === colvalue) {
+          if (drag.end > drag.begin)
+          {
             for (let i = 0; i < colvalue; i++) {
-              if (drag.end < drag.begin && drag.end <= colSize(i)) {
-                drag.count = i;
-                break;
+              if (drag.end >= colSize(i - 1) && drag.end <= colSize(i + 1) && drag.count < colvalue) {
+                drag.count = drag.end >= colSize(i - 1) && drag.end >= colSize(i) ? (i + 1) : i;
+              } else if (drag.end >= container) {
+                drag.count = colsize + (colvalue - colsize);
+              } else if (drag.count > (colvalue - 2) && drag.count < colvalue) {
+                drag.count++;
               }
             }
-          } else if (drag.end < drag.begin && drag.count > 0) {
-            drag.count--;
+          }
+          else if (drag.end < drag.begin)
+          {
+            if (drag.count === colvalue) {
+              for (let i = 0; i < colvalue; i++) {
+                if (drag.end < colSize(i + 1)) {
+                  drag.count = i;
+                  break;
+                }
+              }
+            } else if (drag.count > 0) {
+              for (let i = 0; i < colvalue; i++) {
+                if (drag.end < colSize(i + 1)) {
+                  drag.count = i;
+                  break;
+                }
+              }
+            }
           }
 
           that.classList.add('col-' + colMedia + '-' + drag.count);
         }
       });
 
-        col.addEventListener('mousedown', (e) => {
-          var that = e.target.closest('.editable-column');
-          mouseDownTarget = that;
-          drag.begin = that.clientWidth;
-        });
+      col.addEventListener('mousedown', (e) => {
+        var that = e.target.closest('.editable-column');
+        mouseDownTarget = that;
+        drag.begin = that.clientWidth;
+      });
 
     });
   }

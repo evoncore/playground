@@ -6,8 +6,10 @@ class DashboardWrapper extends React.Component {
   constructor(props) {
     super(props);
 
-    var rows = [];
     var resourceRows = [];
+
+    var rows = [];
+    var widgets = {};
 
     if (this.props.children.length > 0) {
       this.props.children.map(row => {
@@ -26,6 +28,11 @@ class DashboardWrapper extends React.Component {
 
       if (row.columns.length > 0) {
         row.columns.map(col => {
+          widgets[col.props.children.type.displayName + ''] = {
+            type: col.props.children.type,
+            title: col.props.children.type.displayName.toLowerCase()
+          };
+
           cols.push({
             className: 'ant-col-' + col.props.span,
             widgets: [{key: 'test'}]

@@ -17,8 +17,6 @@
     "babel-core": "^6.5.2",
     "babel-eslint": "^5.0.4",
     "babel-loader": "^6.2.3",
-    "babel-preset-stage-0": "^6.3.13",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
     "babel-plugin-react-transform": "^2.0.0",
     "babel-plugin-transform-object-rest-spread": "^6.5.0",
     "babel-plugin-transform-react-display-name": "^6.5.0",
@@ -66,6 +64,9 @@
     "env": {
       "development": {
         "plugins": [
+          ["import", [
+            { "libraryName": "antd", "libraryDirectory": "dist", "style": true }
+          ]],
           [
             "transform-object-rest-spread"
           ],
@@ -141,5 +142,8 @@
       "babel",
       "react"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.0.1"
   }
 }

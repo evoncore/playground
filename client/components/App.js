@@ -1,15 +1,6 @@
 import React from 'react';
 import Dashboard from 'react-dazzle';
-
-// Connect
-import { connect } from 'react-redux';
-
-function mapStateToProps (state) {
-  return {
-    access: state.access,
-  }
-}
-// End Connect
+import { Row, Col } from 'antd';
 
 // Components
 import Test from './Test';
@@ -38,22 +29,22 @@ class App extends React.Component {
       layout: {
         rows: [{
           columns: [{
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test'}],
           }, {
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test2'}],
           }, {
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test3'}],
           }, {
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test'}],
           }, {
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test2'}],
           }, {
-            className: 'col-md-4',
+            className: 'ant-col-8',
             widgets: [{key: 'test3'}],
           }],
         }],
@@ -104,98 +95,66 @@ class App extends React.Component {
     this.updateState(layout);
   }
 
-  componentDidMount() {
-    this.editableColumns = document.querySelectorAll('.editable-column');
-    var container = this.editableColumns.length > 0 ? this.editableColumns[0].closest('.row').clientWidth : undefined;
+  changeGrid(value) {
+    var colClass;
 
-    if (container) {
-      var colMedia = 'md';
-      var colClasses = [
-        'col-' + colMedia + '-1',  'col-' + colMedia + '-2',  'col-' + colMedia + '-3',
-        'col-' + colMedia + '-4',  'col-' + colMedia + '-5',  'col-' + colMedia + '-6',
-        'col-' + colMedia + '-7',  'col-' + colMedia + '-8',  'col-' + colMedia + '-9',
-        'col-' + colMedia + '-10', 'col-' + colMedia + '-11', 'col-' + colMedia + '-12',
-      ];
+    switch (value) {
+      case 1: {
+        colClass = 'ant-col-24';
+        break;
+      }
 
-      var colSize = (size) => {
-        var s = 8.33333333333 * size;
-        return Number((container * s / 100).toFixed(2))
-      };
+      case 2: {
+        colClass = 'ant-col-12';
+        break;
+      }
 
-      this.editableColumns.forEach(col => {
-        col.style.resize = 'both';
-        col.style.overflow = 'auto';
-        col.style.minWidth = '1px';
+      case 3: {
+        colClass = 'ant-col-8';
+        break;
+      }
+    }
 
-        var colvalue = colClasses.length;
-        var colsize;
-
-        var that;
-
-        var drag = {
-          begin: null,
-          end: null,
-          count: null
-        };
-
-        col.addEventListener('mousedown', (e) => {
-          that = e.target.closest('.editable-column');
-          drag.begin = that.clientWidth;
-        });
-
-        document.addEventListener('mouseup', () => {
-          if (that) {
-            drag.end = that.clientWidth;
-
-            colsize = colClasses.map(el => {
-              if (that.classList.contains(el)) return el;
-            });
-
-            for (let k in colsize) {
-              if (colsize[k]) colsize = Number(k) + 1;
-            }
-
-            drag.count = colsize;
-
-            that.style.width = '';
-            that.classList.remove('col-' + colMedia + '-' + drag.count);
-
-            if (drag.end > drag.begin) {
-              for (let i = 0; i < colvalue; i++) {
-                if (drag.end >= colSize(i - 1) && drag.end <= colSize(i + 1) && drag.count < colvalue) {
-                  drag.count = drag.end >= colSize(i - 1) && drag.end >= colSize(i) ? (i + 1) : i;
-                } else if (drag.end >= container) {
-                  drag.count = colsize + (colvalue - colsize);
-                } else if (drag.count > (colvalue - 2) && drag.count < colvalue) {
-                  drag.count++;
-                }
-              }
-            }
-            else if (drag.end < drag.begin)
-            {
-              for (let i = 0; i < colvalue; i++) {
-                if (drag.end < colSize(i + 1)) {
-                  drag.count = i;
-                  break;
-                }
-              }
-            }
-
-            that.classList.add('col-' + colMedia + '-' + drag.count);
-            that = undefined;
-          }
-        });
-
+    this.state.layout.rows.map(row => {
+      row.columns.map(col => {
+        col.className = colClass;
       });
-    } else { console.error('react-dazzle onResize | container:', container) }
+    });
+
+    this.setState(this.state.layout);
   }
 
   render() {
     return (
       <div className="container" id="app">
         <button onClick={this.edit.bind(this)}>edit</button>
+        {
+          this.state.editable ? (
+          <span>
+            <button onClick={this.changeGrid.bind(this, 1)}>1</button>
+            <button onClick={this.changeGrid.bind(this, 2)}>2</button>
+            <button onClick={this.changeGrid.bind(this, 3)}>3</button>
+          </span>
+          ) : ''
+        }
         <br/>
+        {/*<Row>*/}
+          {/*<Col span={12}>col-12</Col>*/}
+          {/*<Col span={12}>col-12</Col>*/}
+        {/*</Row>*/}
+        {/*<Row>*/}
+          {/*<Col span={8}>col-8</Col>*/}
+          {/*<Col span={8}>col-8</Col>*/}
+          {/*<Col span={8}>col-8</Col>*/}
+        {/*</Row>*/}
+        {/*<Row>*/}
+          {/*<Col span={6}>col-6</Col>*/}
+          {/*<Col span={6}>col-6</Col>*/}
+          {/*<Col span={6}>col-6</Col>*/}
+          {/*<Col span={6}>col-6</Col>*/}
+        {/*</Row>*/}
         <Dashboard ref="dashboard"
+                   rowClass="ant-row"
                    editable={this.state.editable}
                    onMove={this.drag.bind(this)}
                    onRemove={this.remove.bind(this)}
@@ -208,4 +167,4 @@ class App extends React.Component {
 
 }
 
-export default connect(mapStateToProps)(App);
+export default App;

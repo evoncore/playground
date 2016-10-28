@@ -169,19 +169,10 @@ class App extends React.Component {
           }
           else if (drag.end < drag.begin)
           {
-            if (drag.count === colvalue) {
-              for (let i = 0; i < colvalue; i++) {
-                if (drag.end < colSize(i + 1)) {
-                  drag.count = i;
-                  break;
-                }
-              }
-            } else if (drag.count > 0) {
-              for (let i = 0; i < colvalue; i++) {
-                if (drag.end < colSize(i + 1)) {
-                  drag.count = i;
-                  break;
-                }
+            for (let i = 0; i < colvalue; i++) {
+              if (drag.end < colSize(i + 1)) {
+                drag.count = i;
+                break;
               }
             }
           }

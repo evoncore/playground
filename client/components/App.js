@@ -27,8 +27,6 @@ class App extends React.Component {
             <col span={8}>
               <Test />
             </col>
-          </row>
-          <row>
             <col span={24}>
               <Test />
             </col>

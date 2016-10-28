@@ -7,37 +7,50 @@ class DashboardWrapper extends React.Component {
     super(props);
 
     var rows = [];
-    var cols = [];
-    var widgets = {};
+    var resourceRows = [];
 
-    this.props.children.map(row => {
-      rows.push(row);
-
-      row.props.children.map(col => {
-        var c = {
-          className: 'ant-col-' + col.props.span,
-          widgets: [{key: 'test'}]
-        };
-
-        cols.push(c);
+    if (this.props.children.length > 0) {
+      this.props.children.map(row => {
+        resourceRows.push({
+          columns: row.props.children
+        });
       });
-    });
+    } else {
+      resourceRows.push({
+        columns: this.props.children.props.children
+      });
+    }
 
-    console.log('rows', rows);
-    console.log('cols', cols);
+    resourceRows.map(row => {
+      var cols = [];
+
+      if (row.columns.length > 0) {
+        row.columns.map(col => {
+          cols.push({
+            className: 'ant-col-' + col.props.span,
+            widgets: [{key: 'test'}]
+          });
+        });
+      } else {
+        cols.push({
+          className: 'ant-col-' + row.columns.props.span,
+          widgets: [{key: 'test'}]
+        });
+      }
+
+      rows.push({ columns: cols });
+    });
 
     this.state = {
       editable: true,
       widgets: {
         test: {
-          type: rows[0].props.children[0].props.children.type,
+          type: resourceRows[0].columns[0].props.children.type,
           title: 'test'
         }
       },
       layout: {
-        rows: [{
-          columns: cols,
-        }],
+        rows: rows
       }
     };
   }

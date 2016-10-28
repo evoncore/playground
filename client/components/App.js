@@ -16,7 +16,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container" id="app">
-        <DashboardWrapper widgets={[Test]}>
+        <DashboardWrapper>
           <row>
             <col span={8}>
               <Test />

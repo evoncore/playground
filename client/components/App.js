@@ -106,7 +106,17 @@ class App extends React.Component {
 
   componentDidMount() {
     this.editableColumns = document.querySelectorAll('.editable-column');
-    var container = this.editableColumns[0].closest('.row').clientWidth;
+    var container = this.editableColumns.length > 0 ? this.editableColumns[0].closest('.row').clientWidth : undefined;
+    var colClasses =[
+      'col-md-1', 'col-md-2', 'col-md-3',
+      'col-md-4', 'col-md-5', 'col-md-6',
+      'col-md-7', 'col-md-8', 'col-md-9',
+      'col-md-10', 'col-md-11', 'col-md-12',
+    ];
+
+    var hasClass =(el, cls) => {
+      return el.className && new RegExp("(\\s|^)" + cls + "(\\s|$)").test(el.className);
+    };
 
     var colSize = (size) => {
       var s = 8.33333333333 * size;
@@ -117,34 +127,57 @@ class App extends React.Component {
       col.style.resize = 'both';
       col.style.overflow = 'auto';
       col.style.minWidth = '1px';
-      var count = 4;
+
+      var colvalue = colClasses.length;
+      var colsize;
       var drag = {
         begin: null,
         end: null,
+        count: null
       };
 
       col.addEventListener('mouseup', (e) => {
         var that = e.target.closest('.editable-column');
         drag.end = that.clientWidth;
 
-        that.style.width = '';
-        that.classList.remove('col-md-' + count);
+        colsize = colClasses.map(el => {
+          if (hasClass(that, el)) return el;
+        });
 
-        for (let i = 0; i < 12; i++) {
-          if (drag.end > colSize(i - 1) && drag.end < colSize(i + 1) && count < 12) {
-            count = i;
+        for (let k in colsize) {
+          if (colsize[k]) colsize = Number(k) + 1;
+        }
+
+        drag.count = colsize;
+
+        that.style.width = '';
+        that.classList.remove('col-md-' + drag.count);
+
+        for (let i = 0; i < colvalue; i++) {
+          if (drag.end >= colSize(i - 1) && drag.end <= colSize(i + 1) && drag.count < colvalue) {
+            if (drag.end >= colSize(i - 1) && drag.end >= colSize(i))
+              drag.count = (i + 1);
+            else
+              drag.count = i;
           } else if (drag.end > drag.begin && drag.end >= container) {
-            count = 12;
-          } else if (drag.end > drag.begin && count > 10 && count < 12) {
-            count++;
+            drag.count = colsize + (colvalue - colsize);
+          } else if (drag.end > drag.begin && drag.count > 10 && drag.count < colvalue) {
+            drag.count++;
           }
         }
 
-        if (drag.end < drag.begin && count > 0) {
-          count--;
+        if (drag.count === colvalue) {
+          for (let i = 0; i < colvalue; i++) {
+            if (drag.end < drag.begin && drag.end <= colSize(i)) {
+              drag.count = i;
+              break;
+            }
+          }
+        } else if (drag.end < drag.begin && drag.count > 0) {
+          drag.count--;
         }
 
-        that.classList.add('col-md-' + count);
+        that.classList.add('col-md-' + drag.count);
       });
 
       col.addEventListener('mousedown', (e) => {

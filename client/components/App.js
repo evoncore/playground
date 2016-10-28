@@ -107,16 +107,14 @@ class App extends React.Component {
   componentDidMount() {
     this.editableColumns = document.querySelectorAll('.editable-column');
     var container = this.editableColumns.length > 0 ? this.editableColumns[0].closest('.row').clientWidth : undefined;
-    var colClasses =[
-      'col-md-1', 'col-md-2', 'col-md-3',
-      'col-md-4', 'col-md-5', 'col-md-6',
-      'col-md-7', 'col-md-8', 'col-md-9',
-      'col-md-10', 'col-md-11', 'col-md-12',
-    ];
 
-    var hasClass =(el, cls) => {
-      return el.className && new RegExp("(\\s|^)" + cls + "(\\s|$)").test(el.className);
-    };
+    var colMedia = 'md';
+    var colClasses =[
+      'col-' + colMedia + '-1', 'col-' + colMedia + '-2', 'col-' + colMedia + '-3',
+      'col-' + colMedia + '-4', 'col-' + colMedia + '-5', 'col-' + colMedia + '-6',
+      'col-' + colMedia + '-7', 'col-' + colMedia + '-8', 'col-' + colMedia + '-9',
+      'col-' + colMedia + '-10', 'col-' + colMedia + '-11', 'col-' + colMedia + '-12',
+    ];
 
     var colSize = (size) => {
       var s = 8.33333333333 * size;
@@ -141,7 +139,7 @@ class App extends React.Component {
         drag.end = that.clientWidth;
 
         colsize = colClasses.map(el => {
-          if (hasClass(that, el)) return el;
+          if (that.classList.contains(el)) return el;
         });
 
         for (let k in colsize) {
@@ -151,7 +149,7 @@ class App extends React.Component {
         drag.count = colsize;
 
         that.style.width = '';
-        that.classList.remove('col-md-' + drag.count);
+        that.classList.remove('col-' + colMedia + '-' + drag.count);
 
         for (let i = 0; i < colvalue; i++) {
           if (drag.end >= colSize(i - 1) && drag.end <= colSize(i + 1) && drag.count < colvalue) {
@@ -177,7 +175,7 @@ class App extends React.Component {
           drag.count--;
         }
 
-        that.classList.add('col-md-' + drag.count);
+        that.classList.add('col-' + colMedia + '-' + drag.count);
       });
 
       col.addEventListener('mousedown', (e) => {

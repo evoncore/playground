@@ -1,166 +1,45 @@
 import React from 'react';
-import Dashboard from 'react-dazzle';
-import { Row, Col } from 'antd';
+import DashboardWrapper from './DashboardWrapper';
 
 // Components
 import Test from './Test';
+
+// Layout
+import { row, col } from './DashboardLayout';
 
 class App extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      editable: true,
-      widgets: {
-        test: {
-          type: Test,
-          props: { text: 'test' }
-        },
-        test2: {
-          type: Test,
-          props: { text: 'test2' }
-        },
-        test3: {
-          type: Test,
-          props: { text: 'test3' }
-        }
-      },
-      layout: {
-        rows: [{
-          columns: [{
-            className: 'ant-col-8',
-            widgets: [{key: 'test'}],
-          }, {
-            className: 'ant-col-8',
-            widgets: [{key: 'test2'}],
-          }, {
-            className: 'ant-col-8',
-            widgets: [{key: 'test3'}],
-          }, {
-            className: 'ant-col-8',
-            widgets: [{key: 'test'}],
-          }, {
-            className: 'ant-col-8',
-            widgets: [{key: 'test2'}],
-          }, {
-            className: 'ant-col-8',
-            widgets: [{key: 'test3'}],
-          }],
-        }],
-      }
-    };
-  }
-
-  updateState(layout) {
-    var updatedColumns = [];
-
-    layout.rows.map(row => {
-      row.columns.map(col => {
-        updatedColumns.push(col);
-      });
-    });
-
-    this.setState({
-      layout: {
-        rows: [{
-          columns: updatedColumns
-        }]
-      }
-    });
-  }
-
-  drag(layout) {
-    this.updateState(layout);
-  }
-
-  remove(layout) {
-    this.updateState(layout);
-  }
-
-  edit() {
-    if (this.state.editable)
-      this.setState({ editable: false });
-    else
-      this.setState({ editable: true });
-  }
-
-  add(layout, row, col) {
-    var obj = {key: 'test3'};
-    var rows = this.state.layout.rows;
-    var target = rows[row].columns[col];
-
-    target.widgets.push(obj);
-
-    this.updateState(layout);
-  }
-
-  changeGrid(value) {
-    var colClass;
-
-    switch (value) {
-      case 1: {
-        colClass = 'ant-col-24';
-        break;
-      }
-
-      case 2: {
-        colClass = 'ant-col-12';
-        break;
-      }
-
-      case 3: {
-        colClass = 'ant-col-8';
-        break;
-      }
-    }
-
-    this.state.layout.rows.map(row => {
-      row.columns.map(col => {
-        col.className = colClass;
-      });
-    });
-
-    this.setState(this.state.layout);
   }
 
   render() {
     return (
       <div className="container" id="app">
-        <button onClick={this.edit.bind(this)}>edit</button>
-        {
-          this.state.editable ? (
-          <span>
-            <button onClick={this.changeGrid.bind(this, 1)}>1</button>
-            <button onClick={this.changeGrid.bind(this, 2)}>2</button>
-            <button onClick={this.changeGrid.bind(this, 3)}>3</button>
-          </span>
-          ) : ''
-        }
-        <br/>
-        {/*<Row>*/}
-          {/*<Col span={12}>col-12</Col>*/}
-          {/*<Col span={12}>col-12</Col>*/}
-        {/*</Row>*/}
-        {/*<Row>*/}
-          {/*<Col span={8}>col-8</Col>*/}
-          {/*<Col span={8}>col-8</Col>*/}
-          {/*<Col span={8}>col-8</Col>*/}
-        {/*</Row>*/}
-        {/*<Row>*/}
-          {/*<Col span={6}>col-6</Col>*/}
-          {/*<Col span={6}>col-6</Col>*/}
-          {/*<Col span={6}>col-6</Col>*/}
-          {/*<Col span={6}>col-6</Col>*/}
-        {/*</Row>*/}
-        <Dashboard ref="dashboard"
-                   rowClass="ant-row"
-                   editable={this.state.editable}
-                   onMove={this.drag.bind(this)}
-                   onRemove={this.remove.bind(this)}
-                   onAdd={this.add.bind(this)}
-                   widgets={this.state.widgets}
-                   layout={this.state.layout} />
+        <DashboardWrapper widgets={[Test]}>
+          <row>
+            <col span={8}>
+              <Test />
+            </col>
+            <col span={8}>
+              <Test />
+            </col>
+            <col span={8}>
+              <Test />
+            </col>
+          </row>
+          <row>
+            <col span={24}>
+              <Test />
+            </col>
+            <col span={24}>
+              <Test />
+            </col>
+            <col span={24}>
+              <Test />
+            </col>
+          </row>
+        </DashboardWrapper>
       </div>
     );
   }

@@ -11,13 +11,13 @@ class DashboardWrapper extends React.Component {
     var rows = [];
     var widgets = {};
 
-    if (this.props.children.length > 0) {
+    if (this.props.children && this.props.children.length > 0) {
       this.props.children.map(row => {
         resourceRows.push({
           columns: row.props.children
         });
       });
-    } else {
+    } else if (this.props.children) {
       resourceRows.push({
         columns: this.props.children.props.children
       });
@@ -26,58 +26,67 @@ class DashboardWrapper extends React.Component {
     resourceRows.map(row => {
       var cols = [];
 
-      if (row.columns.length > 0) {
+      if (row.columns && row.columns.length > 0) {
         row.columns.map(col => {
-          widgets[col.props.children.type.displayName + ''] = {
-            type: col.props.children.type,
-            title: col.props.children.type.displayName.toLowerCase()
-          };
+          if (col.props.children && col.props.children.length > 0) {
+            var localWidgets = [];
 
-          cols.push({
-            className: 'ant-col-' + col.props.span,
-            widgets: [{key: 'test'}]
-          });
+            col.props.children.map(widget => {
+              var title = widget.type.name;
+
+              widgets[title + ''] = {
+                type: widget.type,
+              };
+
+              localWidgets.push({ key: widget.type.displayName });
+            });
+
+            cols.push({
+              className: 'ant-col-' + (col.props.span || 24) + (col.props.className ? ' ' + col.props.className : ''),
+              widgets: localWidgets
+            });
+          } else if (col.props.children) {
+            var title = col.props.children.type.name;
+
+            widgets[title + ''] = {
+              type: col.props.children.type,
+            };
+
+            cols.push({
+              className: 'ant-col-' + (col.props.span || 24) + (col.props.className ? ' ' + col.props.className : ''),
+              widgets: [{key: title}]
+            });
+          }
         });
-      } else {
+      }  else if (row.columns) {
+        var title = row.columns.props.children.type.name;
+
+        widgets[title + ''] = {
+          type: row.columns.props.children.type,
+        };
+
         cols.push({
-          className: 'ant-col-' + row.columns.props.span,
-          widgets: [{key: 'test'}]
+          className: 'ant-col-' + (row.columns.props.span || 24) + (row.columns.props.className ? ' ' + row.props.className : ''),
+          widgets: [{key: title}]
         });
       }
 
       rows.push({ columns: cols });
     });
 
-    this.state = {
-      editable: true,
-      widgets: {
-        test: {
-          type: resourceRows[0].columns[0].props.children.type,
-          title: 'test'
+    if (widgets && rows) {
+      this.state = {
+        editable: true,
+        widgets: widgets,
+        layout: {
+          rows: rows
         }
-      },
-      layout: {
-        rows: rows
-      }
-    };
+      };
+    }
   }
 
   updateState(layout) {
-    var updatedColumns = [];
-
-    layout.rows.map(row => {
-      row.columns.map(col => {
-        updatedColumns.push(col);
-      });
-    });
-
-    this.setState({
-      layout: {
-        rows: [{
-          columns: updatedColumns
-        }]
-      }
-    });
+    this.setState({ layout: layout });
   }
 
   drag(layout) {
@@ -96,12 +105,11 @@ class DashboardWrapper extends React.Component {
   }
 
   add(layout, row, col) {
-    var obj = {key: 'test'};
+    var obj = {key: 'Test'};
     var rows = this.state.layout.rows;
     var target = rows[row].columns[col];
 
     target.widgets.push(obj);
-
     this.updateState(layout);
   }
 
@@ -148,8 +156,7 @@ class DashboardWrapper extends React.Component {
           ) : ''
         }
         <br/>
-        <Dashboard ref="dashboard"
-                   rowClass="ant-row"
+        <Dashboard rowClass="ant-row"
                    editable={this.state.editable}
                    onMove={this.drag.bind(this)}
                    onRemove={this.remove.bind(this)}

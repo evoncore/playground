@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 
 import webpack from 'webpack';
-import config from './webpack.config.dev';
+import config from './webpack.config';
 
 var app = express();
 var compiler = webpack(config);
@@ -35,7 +35,6 @@ app.use(require('webpack-dev-middleware')(compiler, {
 
 app.use(require('webpack-hot-middleware')(compiler));
 
-app.use(express.static(path.join(__dirname, '/../dist')));
 app.use(express.static(path.join(__dirname, '/../public')));
 app.use(express.static(path.join(__dirname, '/../client')));
 

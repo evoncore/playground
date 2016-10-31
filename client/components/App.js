@@ -27,13 +27,13 @@ class App extends React.Component {
             <col span={8}>
               <Test />
             </col>
-            <col span={24}>
+            <col span={8}>
               <Test />
             </col>
-            <col span={24}>
+            <col span={8}>
               <Test />
             </col>
-            <col span={24}>
+            <col span={8}>
               <Test />
             </col>
           </row>

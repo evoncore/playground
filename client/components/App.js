@@ -1,11 +1,9 @@
 import React from 'react';
-import DashboardWrapper from './DashboardWrapper';
+import Dashboard from './Dashboard';
+import { Row, Col } from 'antd';
 
 // Components
 import Test from './Test';
-
-// Layout
-import { row, col } from './DashboardLayout';
 
 class App extends React.Component {
 
@@ -16,28 +14,19 @@ class App extends React.Component {
   render() {
     return (
       <div className="container" id="app">
-        <DashboardWrapper>
-          <row>
-            <col span={8}>
+        <Dashboard editable={true} rowSelector="ant-row" colSelector="ant-col">
+          <Row>
+            <Col span={8}>
               <Test />
-            </col>
-            <col span={8}>
+            </Col>
+            <Col span={8}>
               <Test />
-            </col>
-            <col span={8}>
+            </Col>
+            <Col span={8}>
               <Test />
-            </col>
-            <col span={8}>
-              <Test />
-            </col>
-            <col span={8}>
-              <Test />
-            </col>
-            <col span={8}>
-              <Test />
-            </col>
-          </row>
-        </DashboardWrapper>
+            </Col>
+          </Row>
+        </Dashboard>
       </div>
     );
   }

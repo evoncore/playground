@@ -1,7 +1,6 @@
 import { render } from 'react-dom';
 
 // Styles
-import 'antd/lib/layout/style/css';
 import '../public/stylus/main.styl';
 
 // Router

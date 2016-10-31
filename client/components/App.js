@@ -28,24 +28,24 @@ class App extends React.Component {
           </Row>
           <Row>
             <Col span={8}>
-              <Test>test</Test>
+              <Test>test 4</Test>
             </Col>
             <Col span={8}>
-              <Test>test 2</Test>
+              <Test>test 5</Test>
             </Col>
             <Col span={8}>
-              <Test>test 3</Test>
+              <Test>test 6</Test>
             </Col>
           </Row>
           <Row>
             <Col span={8}>
-              <Test>test</Test>
+              <Test>test 7</Test>
             </Col>
             <Col span={8}>
-              <Test>test 2</Test>
+              <Test>test 8</Test>
             </Col>
             <Col span={8}>
-              <Test>test 3</Test>
+              <Test>test 9</Test>
             </Col>
           </Row>
         </Dashboard>

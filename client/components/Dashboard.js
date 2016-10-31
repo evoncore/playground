@@ -72,9 +72,9 @@ class Dashboard extends React.Component {
     }
   }
 
-  onRemove() {
-    if (this.state.editable) {
-
+  onRemove(e) {
+    if (this.state.editable && e.target.nextSibling) {
+      e.target.parentNode.removeChild(e.target.nextSibling);
     }
   }
 
@@ -94,6 +94,7 @@ class Dashboard extends React.Component {
                              + (this.state.nativeColumns[val].props.className ? ' '
                              +  this.state.nativeColumns[val].props.className : '')}>
                   <Draggable className="draggable" key={val}>
+                    {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
                     {col}
                   </Draggable>
                 </div>

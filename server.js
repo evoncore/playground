@@ -42,7 +42,7 @@ app.get('*', function(req, res) {
   res.render(path.join(__dirname, '/views/index'));
 });
 
-var port = 3000;
+var port = 4000;
 app.listen(port, 'localhost', function(err) {
   if (err) {
     console.log(err);

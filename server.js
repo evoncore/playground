@@ -7,7 +7,7 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 
 import webpack from 'webpack';
-import config from './webpack.config.dev';
+import config from './webpack.config';
 
 var app = express();
 var compiler = webpack(config);

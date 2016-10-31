@@ -26,6 +26,28 @@ class App extends React.Component {
               <Test>test 3</Test>
             </Col>
           </Row>
+          <Row>
+            <Col span={8}>
+              <Test>test</Test>
+            </Col>
+            <Col span={8}>
+              <Test>test 2</Test>
+            </Col>
+            <Col span={8}>
+              <Test>test 3</Test>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8}>
+              <Test>test</Test>
+            </Col>
+            <Col span={8}>
+              <Test>test 2</Test>
+            </Col>
+            <Col span={8}>
+              <Test>test 3</Test>
+            </Col>
+          </Row>
         </Dashboard>
       </div>
     );

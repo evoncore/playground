@@ -17,23 +17,23 @@ class Dashboard extends React.Component {
   }
 
   componentWillMount() {
+    var nativeCols = [];
+    var cols = [];
 
     // columns
     if (this.props.children && this.props.children.length > 0) {
-      var cols = [];
 
       this.props.children.map(row => {
         row.props.children.map(col => {
+          nativeCols.push(col);
           cols.push(col.props.children);
         });
       });
 
-      this.setState({ columns: cols });
+      this.setState({ nativeColumns: nativeCols, columns: cols });
     } else if (this.props.children) {
 
       if (this.props.children.props.children && this.props.children.props.children.length > 0) {
-        var nativeCols = [];
-        var cols = [];
 
         this.props.children.props.children.map(col => {
           nativeCols.push(col);

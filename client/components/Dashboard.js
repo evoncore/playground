@@ -7,7 +7,6 @@ class Dashboard extends React.Component {
     super(props);
 
     this.state = {
-      editable: this.props.editable,
       rowSelector: this.props.rowSelector || '',
       colSelector: this.props.colSelector || '',
       nativeColumns: null,
@@ -48,13 +47,13 @@ class Dashboard extends React.Component {
   }
 
   dragBegin(e) {
-    if (this.state.editable) {
+    if (this.props.editable) {
       this.setState({ dragged: e.target.closest('.draggable') });
     }
   }
 
   dragEnd(e) {
-    if (this.state.editable) {
+    if (this.props.editable) {
 
       this.state.nativeColumns.map(col => {
         if (e.target.closest('.' + this.state.colSelector + '-' + col.props.span)) {
@@ -66,16 +65,10 @@ class Dashboard extends React.Component {
     }
   }
 
-  onAdd() {
-    if (this.state.editable) {
-
-    }
-  }
-
   onRemove(e) {
-    if (this.state.editable && e.target.nextSibling) {
-      e.target.parentNode.removeChild(e.target.nextSibling);
-      e.target.parentNode.removeChild(e.target);
+    if (this.props.editable && e.target.nextSibling && e.target.classList.contains('dashboard-remove-btn')) {
+      // e.target.parentNode.parentNode.removeChild(e.target.closest('.draggable'));
+      e.target.closest('.draggable').style.display = 'none';
     }
   }
 
@@ -95,8 +88,8 @@ class Dashboard extends React.Component {
               {
                 col.map((child, childVal) => {
                   return (
-                    <Draggable className="draggable" key={childVal}>
-                      {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                    <Draggable enabled={this.props.editable} className="draggable" key={childVal}>
+                      {this.props.editable ? <button className="dashboard-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
                       {child}
                     </Draggable>
                   );
@@ -116,8 +109,8 @@ class Dashboard extends React.Component {
                  + this.state.nativeColumns[val].props.span
                  + (this.state.nativeColumns[val].props.className ? ' '
                  + this.state.nativeColumns[val].props.className : '')}>
-              <Draggable className="draggable" key={val}>
-                {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
+              <Draggable enabled={this.props.editable} className="draggable" key={val}>
+                {this.props.editable ? <button className="dashboard-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
                 {col}
               </Draggable>
             </div>
@@ -129,7 +122,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className={this.state.rowSelector}>
+      <div className={this.state.rowSelector} ref="dashboard">
         {this.renderItems.call(this)}
       </div>
     );

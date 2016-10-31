@@ -9,12 +9,24 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      editable: false
+    }
+  }
+
+  edit() {
+    if (this.state.editable)
+      this.setState({ editable: false });
+    else
+      this.setState({ editable: true });
   }
 
   render() {
     return (
       <div className="container" id="app">
-        <Dashboard editable={true} rowSelector="ant-row" colSelector="ant-col">
+        <button onClick={this.edit.bind(this)}>edit</button>
+        <Dashboard editable={this.state.editable} rowSelector="ant-row" colSelector="ant-col">
           <Row>
             <Col span={8}>
               <Test>test 1</Test>

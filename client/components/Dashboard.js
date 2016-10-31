@@ -1,4 +1,5 @@
 import React from 'react';
+import { Draggable, Droppable } from 'react-drag-and-drop';
 
 class Dashboard extends React.Component {
 
@@ -10,7 +11,8 @@ class Dashboard extends React.Component {
       rowSelector: this.props.rowSelector || '',
       colSelector: this.props.colSelector || '',
       nativeColumns: null,
-      columns: null
+      columns: null,
+      dragged: null
     };
   }
 
@@ -45,16 +47,22 @@ class Dashboard extends React.Component {
     }
   }
 
-  onClick(e) {
-    this.state.columns.map(col => {
-      if (!e.target.closest('.' + this.state.colSelector + '-' + col.props.span)) {
-      }
-    });
+  dragBegin(e) {
+    if (this.state.editable) {
+      this.setState({ dragged: e.target.closest('.draggable') });
+    }
   }
 
-  onMove() {
+  dragEnd(e) {
     if (this.state.editable) {
 
+      this.state.nativeColumns.map(col => {
+        if (e.target.closest('.' + this.state.colSelector + '-' + col.props.span)) {
+          e.target.closest('.' + this.state.colSelector + '-' + col.props.span).appendChild(this.state.dragged);
+        }
+      });
+
+      this.setState({ dragged: null });
     }
   }
 
@@ -75,9 +83,22 @@ class Dashboard extends React.Component {
       <div className={this.state.rowSelector}>
         {
           this.state.columns.map((col, val) => {
-            return <div key={Date.now() + Math.random()}
-                        onClick={this.onClick.bind(this)}
-                        className={this.state.colSelector + '-' + this.state.nativeColumns[val].props.span}>{col}</div>
+            return (
+              <Droppable key={val}>
+                <div onDrag={this.dragBegin.bind(this)}
+                     onDrop={this.dragEnd.bind(this)}
+                     key={val}
+                     style={{padding: '20px 0'}}
+                     className={this.state.colSelector + '-'
+                             +  this.state.nativeColumns[val].props.span
+                             + (this.state.nativeColumns[val].props.className ? ' '
+                             +  this.state.nativeColumns[val].props.className : '')}>
+                  <Draggable className="draggable" key={val}>
+                    {col}
+                  </Draggable>
+                </div>
+              </Droppable>
+            );
           })
         }
       </div>

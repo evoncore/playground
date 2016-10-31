@@ -17,13 +17,13 @@ class App extends React.Component {
         <Dashboard editable={true} rowSelector="ant-row" colSelector="ant-col">
           <Row>
             <Col span={8}>
-              <Test />
+              <Test>test</Test>
             </Col>
             <Col span={8}>
-              <Test />
+              <Test>test 2</Test>
             </Col>
             <Col span={8}>
-              <Test />
+              <Test>test 3</Test>
             </Col>
           </Row>
         </Dashboard>

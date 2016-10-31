@@ -75,33 +75,62 @@ class Dashboard extends React.Component {
   onRemove(e) {
     if (this.state.editable && e.target.nextSibling) {
       e.target.parentNode.removeChild(e.target.nextSibling);
+      e.target.parentNode.removeChild(e.target);
     }
+  }
+
+  renderItems() {
+    return this.state.columns.map((col, val) => {
+      if (col.length > 0) {
+        return (
+          <Droppable key={val}>
+            <div onDrag={this.dragBegin.bind(this)}
+                 onDrop={this.dragEnd.bind(this)}
+                 key={val}
+                 style={{padding: '20px 0'}}
+                 className={this.state.colSelector + '-'
+                 + this.state.nativeColumns[val].props.span
+                 + (this.state.nativeColumns[val].props.className ? ' '
+                 + this.state.nativeColumns[val].props.className : '')}>
+              {
+                col.map((child, childVal) => {
+                  return (
+                    <Draggable className="draggable" key={childVal}>
+                      {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                      {child}
+                    </Draggable>
+                  );
+                })
+              }
+            </div>
+          </Droppable>
+        );
+      } else if (col) {
+        return (
+          <Droppable key={val}>
+            <div onDrag={this.dragBegin.bind(this)}
+                 onDrop={this.dragEnd.bind(this)}
+                 key={val}
+                 style={{padding: '20px 0'}}
+                 className={this.state.colSelector + '-'
+                 + this.state.nativeColumns[val].props.span
+                 + (this.state.nativeColumns[val].props.className ? ' '
+                 + this.state.nativeColumns[val].props.className : '')}>
+              <Draggable className="draggable" key={val}>
+                {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                {col}
+              </Draggable>
+            </div>
+          </Droppable>
+        );
+      }
+    })
   }
 
   render() {
     return (
       <div className={this.state.rowSelector}>
-        {
-          this.state.columns.map((col, val) => {
-            return (
-              <Droppable key={val}>
-                <div onDrag={this.dragBegin.bind(this)}
-                     onDrop={this.dragEnd.bind(this)}
-                     key={val}
-                     style={{padding: '20px 0'}}
-                     className={this.state.colSelector + '-'
-                             +  this.state.nativeColumns[val].props.span
-                             + (this.state.nativeColumns[val].props.className ? ' '
-                             +  this.state.nativeColumns[val].props.className : '')}>
-                  <Draggable className="draggable" key={val}>
-                    {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
-                    {col}
-                  </Draggable>
-                </div>
-              </Droppable>
-            );
-          })
-        }
+        {this.renderItems.call(this)}
       </div>
     );
   }

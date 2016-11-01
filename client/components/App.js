@@ -1,6 +1,5 @@
 import React from 'react';
 import Dashboard from './Dashboard';
-import { Row, Col } from 'antd';
 
 // Components
 import Test from './Test';
@@ -11,7 +10,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      editable: false
+      editable: false,
+      spanSize: 8
     }
   }
 
@@ -26,51 +26,20 @@ class App extends React.Component {
     return (
       <div className="container" id="app">
         <button onClick={this.edit.bind(this)}>edit</button>
-        <Dashboard editable={this.state.editable} rowSelector="ant-row" colSelector="ant-col">
-          <Row>
-            <Col span={8}>
-              <Test>test 1</Test>
-              <Test>test 2</Test>
-              <Test>test 3</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 4</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 5</Test>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <Test>test 6</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 5</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8}>
-              <Test>test 7</Test>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 8</Test>
-              <Test>test 6</Test>
-            </Col>
-            <Col span={8}>
-              <Test>test 9</Test>
-              <Test>test 6</Test>
-              <Test>test 6</Test>
-            </Col>
-          </Row>
+        <Dashboard autoColumns={true}
+                   spanSize={this.state.spanSize}
+                   editable={this.state.editable}
+                   rowSelector="ant-row"
+                   colSelector="ant-col">
+          <Test>test 1</Test>
+          <Test>test 4</Test>
+          <Test>test 5</Test>
+          <Test>test 6</Test>
+          <Test>test 7</Test>
+          <Test>test 8</Test>
+          <Test>test 9</Test>
+          <Test>test 10</Test>
+          <Test>test 11</Test>
         </Dashboard>
       </div>
     );

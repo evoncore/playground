@@ -12,17 +12,21 @@ class Dashboard extends React.Component {
         columns: null,
         dragged: null,
         spanSize: this.props.spanSize,
-        columnsLength: 0
+        columnsLength: 0,
+        error: false
       };
-    } else {
+    } else if (props.autoColumns === false) {
       this.state = {
         nativeColumns: null,
         columns: null,
         dragged: null,
         span: 24,
         columnsLength: 0,
-        draggedParent: null
+        draggedParent: null,
+        error: false
       };
+    } else {
+      console.error('"autoColumns" prop is required!');
     }
   }
 
@@ -42,15 +46,26 @@ class Dashboard extends React.Component {
 
       this.setState({ nativeColumns: nativeCols, columns: cols });
     } else if (!this.props.autoColumns) {
+      var error;
+
       if (this.props.children && this.props.children.length > 0) {
         this.props.children.map(row => {
-          row.props.children.map(col => {
-            nativeCols.push(col);
-            cols.push(col.props.children);
-          });
+          if (row.length > 0) {
+            row.props.children.map(col => {
+              nativeCols.push(col);
+              cols.push(col.props.children);
+            });
+          } else {
+            error = true;
+          }
         });
 
-        this.setState({nativeColumns: nativeCols, columns: cols});
+        if (error) {
+          this.setState({ error: true });
+          console.error('"autoColumns" prop is false. Use the Row for dashboard layout');
+        } else {
+          this.setState({nativeColumns: nativeCols, columns: cols});
+        }
       } else if (this.props.children) {
 
         if (this.props.children.props.children && this.props.children.props.children.length > 0) {
@@ -69,7 +84,7 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.autoColumns) {
+    if (!this.props.autoColumns && !this.state.error) {
       this.setState({columnsLength: this.state.nativeColumns.length});
     }
   }
@@ -130,9 +145,9 @@ class Dashboard extends React.Component {
   }
 
   renderColumns() {
-    if (!this.props.autoColumns) {
+    if (!this.props.autoColumns && !this.state.error) {
       return this.state.columns.map((col, val) => {
-        if (col.length > 0) {
+        if (col.children && col.length > 0) {
           return (
             <Droppable key={val}>
               <div onDrag={this.dragBegin.bind(this)}
@@ -175,7 +190,7 @@ class Dashboard extends React.Component {
             </Droppable>
           );
         }
-      })
+      });
     }
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dashboard, Card } from './Dashboard';
+import { Dashboard, Widget } from './Dashboard';
 
 class App extends React.Component {
 
@@ -25,15 +25,13 @@ class App extends React.Component {
         <button onClick={this.edit.bind(this)}>edit</button>
         <Dashboard autoColumns={true}
                    spanSize={this.state.spanSize}
-                   editable={this.state.editable}
-                   rowSelector="ant-row"
-                   colSelector="ant-col">
-          <Card title="title">text 1</Card>
-          <Card title="title">text 2</Card>
-          <Card title="title">text 3</Card>
-          <Card title="title">text 4</Card>
-          <Card title="title">text 5</Card>
-          <Card title="title">text 6</Card>
+                   editable={this.state.editable}>
+          <Widget title="title">text 1</Widget>
+          <Widget title="title">text 2</Widget>
+          <Widget title="title">text 3</Widget>
+          <Widget title="title">text 4</Widget>
+          <Widget title="title">text 5</Widget>
+          <Widget title="title">text 6</Widget>
         </Dashboard>
       </div>
     );

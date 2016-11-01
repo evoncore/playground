@@ -1,4 +1,5 @@
 import React from 'react';
+import 'antd/lib/layout/style/css';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 
 class Dashboard extends React.Component {
@@ -8,6 +9,8 @@ class Dashboard extends React.Component {
 
     if (props.autoColumns) {
       this.state = {
+        rowClass: 'ant-row',
+        colClass: 'ant-col',
         nativeColumns: null,
         columns: null,
         dragged: null,
@@ -18,6 +21,8 @@ class Dashboard extends React.Component {
       };
     } else if (props.autoColumns === false) {
       this.state = {
+        rowClass: 'ant-row',
+        colClass: 'ant-col',
         nativeColumns: null,
         columns: null,
         dragged: null,
@@ -117,7 +122,7 @@ class Dashboard extends React.Component {
 
   dragBegin(e) {
     if (this.props.autoColumns && this.props.editable) {
-      this.setState({ dragged: e.target.closest('.draggable'), draggedParent: e.target.closest('.draggable').closest('.' + this.props.colSelector + '-' + this.state.spanSize)});
+      this.setState({ dragged: e.target.closest('.draggable'), draggedParent: e.target.closest('.draggable').closest('.' + this.state.colClass + '-' + this.state.spanSize)});
     } else if (!this.props.autoColumns) {
       this.setState({ dragged: e.target.closest('.draggable') });
     }
@@ -127,10 +132,10 @@ class Dashboard extends React.Component {
     if (this.props.editable) {
 
       this.state.nativeColumns.map(col => {
-        if (this.props.autoColumns && e.target.closest('.' + this.props.colSelector + '-' + this.state.spanSize)) {
-          e.target.closest('.' + this.props.colSelector + '-' + this.state.spanSize).appendChild(this.state.dragged);
-        } else if (!this.props.autoColumns && e.target.closest('.' + this.props.colSelector + '-' + (col.props.span || 24))) {
-          e.target.closest('.' + this.props.colSelector + '-' + (col.props.span || 24)).appendChild(this.state.dragged);
+        if (this.props.autoColumns && e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) {
+          e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize).appendChild(this.state.dragged);
+        } else if (!this.props.autoColumns && e.target.closest('.' + this.state.colClass + '-' + (col.props.span || 24))) {
+          e.target.closest('.' + this.state.colClass + '-' + (col.props.span || 24)).appendChild(this.state.dragged);
         }
       });
 
@@ -141,7 +146,7 @@ class Dashboard extends React.Component {
     if (this.state.draggedParent.children.length <= 0 &&
       this.state.draggedParent &&
       this.state.dragged &&
-      this.state.draggedParent != this.state.dragged.closest('.' + this.props.colSelector + '-' + this.state.spanSize))
+      this.state.draggedParent != this.state.dragged.closest('.' + this.state.colClass + '-' + this.state.spanSize))
     {
       this.state.draggedParent.style.display = 'none';
     }
@@ -164,7 +169,7 @@ class Dashboard extends React.Component {
               <div onDrag={this.dragBegin.bind(this)}
                    onDrop={this.dragEnd.bind(this)}
                    key={val}
-                   className={this.props.colSelector + '-'
+                   className={this.state.colClass + '-'
                    + (this.state.nativeColumns[val].props.span || 24)
                    + (this.state.nativeColumns[val].props.className ? ' '
                    + this.state.nativeColumns[val].props.className : '')}>
@@ -188,7 +193,7 @@ class Dashboard extends React.Component {
               <div onDrag={this.dragBegin.bind(this)}
                    onDrop={this.dragEnd.bind(this)}
                    key={val}
-                   className={this.props.colSelector + '-'
+                   className={this.state.colClass + '-'
                    + (this.state.nativeColumns[val].props.span || 24)
                    + (this.state.nativeColumns[val].props.className ? ' '
                    + this.state.nativeColumns[val].props.className : '')}>
@@ -212,7 +217,7 @@ class Dashboard extends React.Component {
           <div onDrag={this.dragBegin.bind(this)}
                onDrop={this.dragEnd.bind(this)}
                key={val}
-               className={this.props.colSelector + '-' + this.state.spanSize}>
+               className={this.state.colClass + '-' + this.state.spanSize}>
             <Draggable enabled={this.props.editable} className="draggable" key={val}>
               {col}
               <div className="dashboard-card-controls">
@@ -228,7 +233,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className={"dashboard " + (this.props.editable ? 'edit' : '') + ' ' + this.props.rowSelector} ref="dashboard">
+      <div className={"dashboard " + (this.props.editable ? 'edit' : '') + ' ' + this.state.rowClass} ref="dashboard">
         {this.props.editable ?
           <div>
             <button onClick={this.setSpanSize.bind(this, 1)}>1</button>

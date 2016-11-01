@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'antd';
 
-class _Card extends React.Component {
+class Widget extends React.Component {
 
   constructor(props) {
     super(props);
@@ -9,7 +9,7 @@ class _Card extends React.Component {
 
   render() {
     return (
-      <Card {...this.props} className="dashboard-card">
+      <Card {...this.props} className="dashboard-widget">
         {this.props.children}
       </Card>
     );
@@ -17,4 +17,4 @@ class _Card extends React.Component {
 
 }
 
-export default _Card;
+export default Widget;

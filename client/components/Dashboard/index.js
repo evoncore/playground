@@ -1,5 +1,5 @@
 import Dashboard_Item from './Dashboard';
-import Card_Item from './Card';
+import Widget_Item from './Widget';
 
 export { Dashboard_Item as Dashboard };
-export { Card_Item as Card };
+export { Widget_Item as Widget };

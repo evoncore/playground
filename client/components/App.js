@@ -1,6 +1,5 @@
 import React from 'react';
 import Dashboard from './Dashboard';
-import { Row } from 'antd';
 
 // Components
 import Test from './Test';
@@ -27,22 +26,20 @@ class App extends React.Component {
     return (
       <div className="container" id="app">
         <button onClick={this.edit.bind(this)}>edit</button>
-        <Dashboard autoColumns={false}
+        <Dashboard autoColumns={true}
                    spanSize={this.state.spanSize}
                    editable={this.state.editable}
                    rowSelector="ant-row"
                    colSelector="ant-col">
-          <Row>
-            <Test>test 1</Test>
-            <Test>test 4</Test>
-            <Test>test 5</Test>
-            <Test>test 6</Test>
-            <Test>test 7</Test>
-            <Test>test 8</Test>
-            <Test>test 9</Test>
-            <Test>test 10</Test>
-            <Test>test 11</Test>
-          </Row>
+          <Test>test 1</Test>
+          <Test>test 4</Test>
+          <Test>test 5</Test>
+          <Test>test 6</Test>
+          <Test>test 7</Test>
+          <Test>test 8</Test>
+          <Test>test 9</Test>
+          <Test>test 10</Test>
+          <Test>test 11</Test>
         </Dashboard>
       </div>
     );

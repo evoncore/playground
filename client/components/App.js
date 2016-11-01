@@ -28,12 +28,12 @@ class App extends React.Component {
                    editable={this.state.editable}
                    rowSelector="ant-row"
                    colSelector="ant-col">
-          <Card>text 1</Card>
-          <Card>text 2</Card>
-          <Card>text 3</Card>
-          <Card>text 4</Card>
-          <Card>text 5</Card>
-          <Card>text 6</Card>
+          <Card title="title">text 1</Card>
+          <Card title="title">text 2</Card>
+          <Card title="title">text 3</Card>
+          <Card title="title">text 4</Card>
+          <Card title="title">text 5</Card>
+          <Card title="title">text 6</Card>
         </Dashboard>
       </div>
     );

@@ -212,8 +212,7 @@ class Dashboard extends React.Component {
           <div onDrag={this.dragBegin.bind(this)}
                onDrop={this.dragEnd.bind(this)}
                key={val}
-               {...this.state.columnsProps[val]}
-               className={this.props.colSelector + '-' + this.state.spanSize + ' ' + (this.state.columnsProps[val].className ? this.state.columnsProps[val].className : '')}>
+               className={this.props.colSelector + '-' + this.state.spanSize}>
             <Draggable enabled={this.props.editable} className="draggable" key={val}>
               {col}
               <div className="dashboard-card-controls">

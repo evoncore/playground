@@ -1,20 +1,20 @@
 import React from 'react';
+import { Card } from 'antd';
 
-class Card extends React.Component {
+class _Card extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
 
   render() {
     return (
-      <div className="dashboard-card">
-        <div className="dashboard-card-controls">
-          <p className="dashboard-card-title">Title</p>
-        </div>
-        <div className="dashboard-card-body">
-          <p>{this.props.children}</p>
-        </div>
-      </div>
+      <Card title={this.props.title} className="dashboard-card">
+        {this.props.children}
+      </Card>
     );
   }
 
 }
 
-export default Card;
+export default _Card;

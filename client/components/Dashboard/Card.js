@@ -9,7 +9,7 @@ class _Card extends React.Component {
 
   render() {
     return (
-      <Card title={this.props.title} className="dashboard-card">
+      <Card {...this.props} className="dashboard-card">
         {this.props.children}
       </Card>
     );

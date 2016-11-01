@@ -1,5 +1,6 @@
 import React from 'react';
 import { Dashboard, Widget } from './Dashboard';
+import { Button } from 'antd';
 
 class App extends React.Component {
 
@@ -7,7 +8,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      editable: false,
+      editable: true,
       spanSize: 8
     }
   }
@@ -22,7 +23,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container" id="app">
-        <button onClick={this.edit.bind(this)}>edit</button>
+        <Button style={{margin: '5px'}} onClick={this.edit.bind(this)}>edit</Button>
         <Dashboard autoColumns={true}
                    spanSize={this.state.spanSize}
                    editable={this.state.editable}>

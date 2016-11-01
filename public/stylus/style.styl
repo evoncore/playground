@@ -71,13 +71,6 @@ input
 .error-input
   border 2px solid $mnc
 
-button
-  padding 3.5px 10px
-  font-size 12px
-  text-align center
-  transition .2s
-  margin 5px
-
 
 // App
 
@@ -166,12 +159,6 @@ header
 
 .dashboard
   button
-    width 25px
-    height 25px
-    font-size 12px
-    text-align center
-    padding 0
-    transition .2s
     margin 5px
   &.edit
     for num in 1..24
@@ -180,24 +167,11 @@ header
   .draggable
     position relative
     margin 10px 5px
-    border 1px solid #999
     &:first-child
       margin 5px
 
 .dashboard-card
   padding 1px 0
-  &-remove-btn
-    font-family $if
-    color #333
-    width 10px
-    height 10px
-    position absolute
-    top -6px
-    right -6px
-    margin 0
-    font-size 8px
-    padding 0
-    transition .2s
   &-title
     display block
     width 100%
@@ -207,6 +181,11 @@ header
   &-controls
     width 100%
     button
-      display inline-block
+      position absolute
+      top 7px
+      padding 5px
+      margin 0
+      &:nth-child(1)
+        right 7px
   &-body
     padding 0 10px

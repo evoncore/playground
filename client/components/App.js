@@ -1,8 +1,5 @@
 import React from 'react';
-import Dashboard from './Dashboard';
-
-// Components
-import Test from './Test';
+import { Dashboard, Card } from './Dashboard';
 
 class App extends React.Component {
 
@@ -31,15 +28,12 @@ class App extends React.Component {
                    editable={this.state.editable}
                    rowSelector="ant-row"
                    colSelector="ant-col">
-          <Test>test 1</Test>
-          <Test>test 4</Test>
-          <Test>test 5</Test>
-          <Test>test 6</Test>
-          <Test>test 7</Test>
-          <Test>test 8</Test>
-          <Test>test 9</Test>
-          <Test>test 10</Test>
-          <Test>test 11</Test>
+          <Card>text 1</Card>
+          <Card>text 2</Card>
+          <Card>text 3</Card>
+          <Card>text 4</Card>
+          <Card>text 5</Card>
+          <Card>text 6</Card>
         </Dashboard>
       </div>
     );

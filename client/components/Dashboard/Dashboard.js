@@ -13,7 +13,8 @@ class Dashboard extends React.Component {
         dragged: null,
         spanSize: this.props.spanSize,
         columnsLength: 0,
-        error: false
+        error: false,
+        columnsProps: null
       };
     } else if (props.autoColumns === false) {
       this.state = {
@@ -36,15 +37,21 @@ class Dashboard extends React.Component {
 
     // columns
     if (this.props.autoColumns) {
+      var columnsProps = [];
+
       if (this.props.children && this.props.children.length > 0) {
         cols = this.props.children
-        nativeCols.push(this.props.children);
+        nativeCols = this.props.children;
+        this.props.children.map(col => {
+          columnsProps.push(col.props);
+        });
       } else if (this.props.children) {
         cols.push(this.props.children);
         nativeCols.push(this.props.children);
+        columnsProps.push(this.props.children.props);
       }
 
-      this.setState({ nativeColumns: nativeCols, columns: cols });
+      this.setState({ nativeColumns: nativeCols, columns: cols, columnsProps: columnsProps });
     } else if (!this.props.autoColumns) {
       var error;
 
@@ -132,16 +139,16 @@ class Dashboard extends React.Component {
 
     // remove column from dom if they have no children
     if (this.state.draggedParent.children.length <= 0 &&
-        this.state.draggedParent &&
-        this.state.dragged &&
-        this.state.draggedParent != this.state.dragged.closest('.' + this.props.colSelector + '-' + this.state.spanSize))
+      this.state.draggedParent &&
+      this.state.dragged &&
+      this.state.draggedParent != this.state.dragged.closest('.' + this.props.colSelector + '-' + this.state.spanSize))
     {
       this.state.draggedParent.style.display = 'none';
     }
   }
 
   onRemove(e) {
-    if (this.props.editable && e.target.nextSibling && e.target.classList.contains('dashboard-remove-btn')) {
+    if (this.props.editable && e.target.classList.contains('dashboard-card-remove-btn')) {
       e.target.closest('.draggable').parentNode.style.display = 'none';
 
       this.setState({ columnsLength: this.state.columnsLength - 1 });
@@ -187,7 +194,7 @@ class Dashboard extends React.Component {
                    + this.state.nativeColumns[val].props.className : '')}>
                 <Draggable enabled={this.props.editable} className="draggable" key={val}>
                   {this.props.editable ?
-                    <button className="dashboard-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                    <button className="dashboard-card-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
                   {col}
                 </Draggable>
               </div>
@@ -205,11 +212,14 @@ class Dashboard extends React.Component {
           <div onDrag={this.dragBegin.bind(this)}
                onDrop={this.dragEnd.bind(this)}
                key={val}
-               className={this.props.colSelector + '-' + this.state.spanSize}>
+               {...this.state.columnsProps[val]}
+               className={this.props.colSelector + '-' + this.state.spanSize + ' ' + (this.state.columnsProps[val].className ? this.state.columnsProps[val].className : '')}>
             <Draggable enabled={this.props.editable} className="draggable" key={val}>
-              {this.props.editable ?
-                <button className="dashboard-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
               {col}
+              <div className="dashboard-card-controls">
+                {this.props.editable ?
+                  <button className="dashboard-card-remove-btn icon-cross" onClick={this.onRemove.bind(this)}></button> : ''}
+              </div>
             </Draggable>
           </div>
         </Droppable>
@@ -219,7 +229,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div className={this.props.rowSelector} ref="dashboard">
+      <div className={"dashboard " + (this.props.editable ? 'edit' : '') + ' ' + this.props.rowSelector} ref="dashboard">
         {this.props.editable ?
           <div>
             <button onClick={this.setSpanSize.bind(this, 1)}>1</button>

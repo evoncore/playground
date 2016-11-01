@@ -28,6 +28,7 @@ html, body
 body
   background url('../img/black-orchid.png'), #111
   font-family $mf
+  padding 20px
 
 h1
   color #222
@@ -64,29 +65,18 @@ input
   border 2px solid transparent
   margin-top 20px
 
-button
-  display inline-block
-  border 0
-  border-radius 0
-  background #333
-  color $mfc
-  padding 10px 15px
-  transition()
-  bs_pattern(#333)
-  font-size 16px
-  margin 20px 0
-  font-weight 400
-  &:hover
-    color $mc
-  &:active
-    bs_pattern_negative(#333)
-
 .error-text
   color $mnc
 
 .error-input
   border 2px solid $mnc
 
+button
+  padding 3.5px 10px
+  font-size 12px
+  text-align center
+  transition .2s
+  margin 5px
 
 
 // App
@@ -102,7 +92,6 @@ button
 
 #root
   height 100%
-  padding-top 40px
   & > *
     min-height 100%
 
@@ -175,29 +164,45 @@ header
   display inline-block
 
 
-.ant-col-1,
-.ant-col-2,
-.ant-col-3,
-.ant-col-4,
-.ant-col-5,
-.ant-col-6,
-.ant-col-7,
-.ant-col-8,
-.ant-col-9,
-.ant-col-10,
-.ant-col-11,
-.ant-col-12,
-.ant-col-13,
-.ant-col-14,
-.ant-col-15,
-.ant-col-16,
-.ant-col-17,
-.ant-col-18,
-.ant-col-19,
-.ant-col-20,
-.ant-col-21,
-.ant-col-22,
-.ant-col-23,
-.ant-col-24
-  border 1px solid #333
-  padding 20px 0
+.dashboard
+  button
+    width 25px
+    height 25px
+    font-size 12px
+    text-align center
+    padding 0
+    transition .2s
+    margin 5px
+  &.edit
+    for num in 1..24
+      .ant-col-{num}
+        border-right 1px solid #ccc
+  .draggable
+    position relative
+    margin 10px 5px
+    border 1px solid #999
+    &:first-child
+      margin 5px
+
+.dashboard-card
+  padding 10px
+  &-remove-btn
+    font-family $if
+    color #333
+    width 25px
+    height 25px
+    position absolute
+    top -6px
+    right -6px
+    margin 0
+    font-size 12px
+    text-align center
+    padding 0
+    transition .2s
+  &-title
+    display inline
+  &-controls
+    display inline-block
+    text-align right
+    button
+      display inline-block

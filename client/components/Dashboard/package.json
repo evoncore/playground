@@ -1,0 +1,8 @@
+{
+  "name": "Dashboard",
+  "version": "1.0.0",
+  "dependencies": {
+    "react": "^0.14.7",
+    "react-drag-and-drop": "^2.1.0"
+  }
+}

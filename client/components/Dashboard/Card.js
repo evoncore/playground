@@ -8,7 +8,9 @@ class Card extends React.Component {
         <div className="dashboard-card-controls">
           <p className="dashboard-card-title">Title</p>
         </div>
-        <p>{this.props.children}</p>
+        <div className="dashboard-card-body">
+          <p>{this.props.children}</p>
+        </div>
       </div>
     );
   }

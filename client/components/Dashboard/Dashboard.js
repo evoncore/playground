@@ -56,18 +56,18 @@ class Dashboard extends React.Component {
         }
       };
 
-      var item_1 = index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) - 1;
-      var item_2 = index(this.state.dragged) - 1;
+      var droppedIndex = index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) - 1;
+      var draggedIndex = index(this.state.dragged) - 1;
 
-      if (!isNaN(item_1) && !isNaN(item_2)) {
+      if (!isNaN(droppedIndex) && !isNaN(draggedIndex)) {
         var cols = this.state.columns;
 
-        if (item_2 > item_1) {
-          cols.splice(item_1, 0, cols[item_2]);
-          cols.splice(item_2 + 1, 1);
+        if (draggedIndex > droppedIndex) {
+          cols.splice(droppedIndex, 0, cols[draggedIndex]);
+          cols.splice(draggedIndex + 1, 1);
         } else {
-          cols.splice(item_1 + 1, 0, cols[item_2]);
-          cols.splice(item_2, 1);
+          cols.splice(droppedIndex + 1, 0, cols[draggedIndex]);
+          cols.splice(draggedIndex, 1);
         }
 
         this.setState({ dragged: null });

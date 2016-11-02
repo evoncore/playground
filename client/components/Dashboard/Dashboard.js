@@ -14,37 +14,23 @@ class Dashboard extends React.Component {
       nativeColumns: null,
       columns: null,
       dragged: null,
-      spanSize: this.props.spanSize,
-      columnsLength: 0,
-      error: false,
-      columnsProps: null
+      spanSize: this.props.spanSize
     };
   }
 
   componentWillMount() {
     var nativeCols = [];
     var cols = [];
-    var columnsProps = [];
 
     if (this.props.children && this.props.children.length > 0) {
       cols = this.props.children;
       nativeCols = this.props.children;
-      this.props.children.map(col => {
-        columnsProps.push(col.props);
-      });
     } else if (this.props.children) {
       cols.push(this.props.children);
       nativeCols.push(this.props.children);
-      columnsProps.push(this.props.children.props);
     }
 
-    this.setState({ nativeColumns: nativeCols, columns: cols, columnsProps: columnsProps });
-  }
-
-  componentDidMount() {
-    if (!this.props.autoColumns && !this.state.error) {
-      this.setState({columnsLength: this.state.nativeColumns.length});
-    }
+    this.setState({ nativeColumns: nativeCols, columns: cols });
   }
 
   setSpanSize(value) {
@@ -76,19 +62,21 @@ class Dashboard extends React.Component {
       var item_2 = index(this.state.dragged) - 1;
 
       var cols = this.state.columns;
-
       cols.splice(item_1, 0, cols[item_2]);
-      cols.splice(item_2 + 1, 1);
+
+      if (item_2 > item_1) {
+        cols.splice(item_2 + 1, 1);
+      } else {
+        cols.splice(item_2, 1);
+      }
+
       this.setState({ dragged: null });
     }
   }
 
   onRemove(e) {
-    if (this.props.editable && e.target.classList.contains('dashboard-card-remove-btn')) {
+    if (this.props.editable && e.target.classList.contains('dashboard-card-remove-btn'))
       e.target.closest('.draggable').style.display = 'none';
-
-      this.setState({ columnsLength: this.state.columnsLength - 1 });
-    }
   }
 
   render() {

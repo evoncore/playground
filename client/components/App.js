@@ -10,7 +10,6 @@ class App extends React.Component {
   render() {
     return (
       <div className="container" id="app">
-
         <Dashboard numberOfColumns={3}>
           <Widget title="title">text 1</Widget>
           <Widget title="title">text 2</Widget>

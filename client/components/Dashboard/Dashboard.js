@@ -37,12 +37,13 @@ class Dashboard extends React.Component {
 
   index(node) {
     if (node && node.parentNode) {
-      var children = node.parentNode.childNodes;
-      var num = 0;
+      var children = node.parentNode.childNodes, num = 0;
+
       for (var i = 0; i < children.length; i++) {
         if (children[i] == node) return num - 1;
         if (children[i].nodeType == 1) num++;
       }
+
       return -1;
     }
   }
@@ -97,9 +98,7 @@ class Dashboard extends React.Component {
       <div className="dashboard">
         <Button onClick={this.onEdit.bind(this)}>edit</Button>
         <Droppable> {/* can't "onDrop" bind with <Droppable> and need one more div inside <Droppable> */}
-          <div onDrop={this.dragEnd.bind(this)}
-               className={(this.state.editable ? 'edit' : '') + ' ' + this.state.rowClass}
-               ref="dashboard">
+          <div onDrop={this.dragEnd.bind(this)} className={this.state.rowClass}>
             {
               this.state.editable ?
                 <div>

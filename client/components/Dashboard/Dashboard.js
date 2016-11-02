@@ -11,35 +11,30 @@ class Dashboard extends React.Component {
     this.state = {
       rowClass: 'ant-row',
       colClass: 'ant-col',
-      nativeColumns: null,
       columns: null,
       dragged: null,
+      editable: false,
       spanSize: (24 / this.props.numberOfColumns) || 24
     };
   }
 
   componentWillMount() {
-    var nativeCols = [];
     var cols = [];
 
-    if (this.props.children && this.props.children.length > 0) {
+    if (this.props.children && this.props.children.length > 0)
       cols = this.props.children;
-      nativeCols = this.props.children;
-    } else if (this.props.children) {
+    else if (this.props.children)
       cols.push(this.props.children);
-      nativeCols.push(this.props.children);
-    }
 
-    this.setState({ nativeColumns: nativeCols, columns: cols });
+    this.setState({ columns: cols });
   }
 
   setSpanSize(value) {
-    this.setState({ spanSize: value });
+    this.setState({ spanSize: (24 / value) });
   }
 
   dragBegin(e) {
-    if (this.props.editable) {
-
+    if (this.state.editable) {
       this.setState({
         dragged: e.target.closest('.draggable'),
         draggedParent: e.target.closest('.draggable').closest('.' + this.state.colClass + '-' + this.state.spanSize)
@@ -48,7 +43,7 @@ class Dashboard extends React.Component {
   }
 
   dragEnd(e) {
-    if (this.props.editable) {
+    if (this.state.editable) {
       var index = (node) => {
         if (node && node.parentNode) {
           var children = node.parentNode.childNodes;
@@ -81,44 +76,56 @@ class Dashboard extends React.Component {
   }
 
   onRemove(e) {
-    if (this.props.editable && e.target.classList.contains('dashboard-card-remove-btn'))
+    if (this.state.editable && e.target.classList.contains('dashboard-card-remove-btn'))
       e.target.closest('.draggable').style.display = 'none';
+  }
+
+  onEdit() {
+    if (this.state.editable)
+      this.setState({ editable: false });
+    else
+      this.setState({ editable: true });
   }
 
   render() {
     return (
-      <Droppable>
-        <div onDrop={this.dragEnd.bind(this)} className={"dashboard " + (this.props.editable ? 'edit' : '') + ' ' + this.state.rowClass} ref="dashboard">
-          {
-            this.props.editable ?
-              <div>
-                <Button onClick={this.setSpanSize.bind(this, 24)}>1</Button>
-                <Button onClick={this.setSpanSize.bind(this, 12)}>2</Button>
-                <Button onClick={this.setSpanSize.bind(this, 8)}>3</Button>
-              </div>
-            : ''
-          }
-          {
-            this.state.columns.map((col, val) => {
-              return (
-                <Draggable onDrag={this.dragBegin.bind(this)}
-                           enabled={this.props.editable}
-                           className={'draggable ' + this.state.colClass + '-' + this.state.spanSize}
-                           key={val}>
-                  {col}
-                  <div className="dashboard-card-controls">
-                    {
-                      this.props.editable ?
-                        <Button className="dashboard-card-remove-btn icon-cross" onClick={this.onRemove.bind(this)}></Button>
-                      : ''
-                    }
-                  </div>
-                </Draggable>
-              );
-            })
-          }
-        </div>
-      </Droppable>
+      <div className="dashboard">
+        <Button onClick={this.onEdit.bind(this)}>edit</Button>
+        <Droppable> {/* can't "onDrop" bind with <Droppable> and need one more div inside <Droppable> */}
+          <div onDrop={this.dragEnd.bind(this)}
+               className={(this.state.editable ? 'edit' : '') + ' ' + this.state.rowClass}
+               ref="dashboard">
+            {
+              this.state.editable ?
+                <div>
+                  <Button onClick={this.setSpanSize.bind(this, 1)}>1</Button>
+                  <Button onClick={this.setSpanSize.bind(this, 2)}>2</Button>
+                  <Button onClick={this.setSpanSize.bind(this, 3)}>3</Button>
+                </div>
+              : ''
+            }
+            {
+              this.state.columns.map((col, val) => {
+                return (
+                  <Draggable onDrag={this.dragBegin.bind(this)}
+                             enabled={this.state.editable}
+                             className={'draggable ' + this.state.colClass + '-' + this.state.spanSize}
+                             key={val}>
+                    {col}
+                    <div className="dashboard-card-controls">
+                      {
+                        this.state.editable ?
+                          <Button className="dashboard-card-remove-btn icon-cross" onClick={this.onRemove.bind(this)}></Button>
+                        : ''
+                      }
+                    </div>
+                  </Draggable>
+                );
+              })
+            }
+          </div>
+        </Droppable>
+      </div>
     );
   }
 

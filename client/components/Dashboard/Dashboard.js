@@ -3,18 +3,6 @@ import 'antd/lib/layout/style/css';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { Button } from 'antd';
 
-var index = (node) => {
-  if (node && node.parentNode) {
-    var children = node.parentNode.childNodes;
-    var num = 0;
-    for (var i = 0; i < children.length; i++) {
-      if (children[i] == node) return num;
-      if (children[i].nodeType == 1) num++;
-    }
-    return -1;
-  }
-};
-
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -45,6 +33,18 @@ class Dashboard extends React.Component {
     this.setState({ spanSize: (24 / value) });
   }
 
+  index(node) {
+    if (node && node.parentNode) {
+      var children = node.parentNode.childNodes;
+      var num = 0;
+      for (var i = 0; i < children.length; i++) {
+        if (children[i] == node) return num - 1;
+        if (children[i].nodeType == 1) num++;
+      }
+      return -1;
+    }
+  }
+
   dragBegin(e) {
     if (this.state.editable) {
       this.setState({
@@ -55,8 +55,8 @@ class Dashboard extends React.Component {
 
   dragEnd(e) {
     if (this.state.editable) {
-      var droppedIndex = index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) - 1;
-      var draggedIndex = index(this.state.dragged) - 1;
+      var droppedIndex = this.index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize));
+      var draggedIndex = this.index(this.state.dragged);
 
       if (!isNaN(droppedIndex) && !isNaN(draggedIndex)) {
         var cols = this.state.columns;
@@ -78,7 +78,7 @@ class Dashboard extends React.Component {
     if (this.state.editable && e.target.classList.contains('dashboard-card-remove-btn')) {
       var cols = this.state.columns;
 
-      cols.splice(index(e.target.closest('.draggable')) - 1, 1);
+      cols.splice(this.index(e.target.closest('.draggable')), 1);
       this.setState({ columns: cols });
     }
   }

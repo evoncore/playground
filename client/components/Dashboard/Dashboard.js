@@ -1,5 +1,7 @@
-import React from 'react';
 import 'antd/lib/layout/style/css';
+import './css/styles.css';
+
+import React from 'react';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { Button } from 'antd';
 

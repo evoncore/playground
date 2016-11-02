@@ -1,0 +1,47 @@
+.dashboard button.ant-btn {
+    margin: 5px;
+}
+
+.dashboard .draggable {
+    position: relative;
+}
+
+.dashboard .draggable .ant-card.focused {
+    box-shadow: 0 1px 6px rgba(0,0,0,0.2);
+    border-color: #eee;
+}
+
+.draggable {
+    padding: 5px;
+}
+
+.dashboard-card {
+    padding: 1px 0;
+}
+
+.dashboard-card-title {
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid #999;
+    margin-bottom: 5px;
+    padding: 0 10px;
+}
+
+.dashboard-card-controls {
+    width: 100%;
+}
+
+.dashboard-card-controls button {
+    position: absolute;
+    top: 10px;
+    padding: 5px;
+    margin: 0;
+}
+
+.dashboard-card-controls button:nth-child(1) {
+    right: 10px;
+}
+
+.dashboard-card-body {
+    padding: 0 10px;
+}

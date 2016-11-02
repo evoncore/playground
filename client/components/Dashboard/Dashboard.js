@@ -49,28 +49,32 @@ class Dashboard extends React.Component {
   dragEnd(e) {
     if (this.props.editable) {
       var index = (node) => {
-        var children = node.parentNode.childNodes;
-        var num = 0;
-        for (var i = 0; i < children.length; i++) {
-          if (children[i] == node) return num;
-          if (children[i].nodeType == 1) num++;
+        if (node && node.parentNode) {
+          var children = node.parentNode.childNodes;
+          var num = 0;
+          for (var i = 0; i < children.length; i++) {
+            if (children[i] == node) return num;
+            if (children[i].nodeType == 1) num++;
+          }
+          return -1;
         }
-        return -1;
       };
 
       var item_1 = index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) - 1;
       var item_2 = index(this.state.dragged) - 1;
 
-      var cols = this.state.columns;
-      cols.splice(item_1, 0, cols[item_2]);
+      if (!isNaN(item_1) && !isNaN(item_2)) {
+        var cols = this.state.columns;
+        cols.splice(item_1, 0, cols[item_2]);
 
-      if (item_2 > item_1) {
-        cols.splice(item_2 + 1, 1);
-      } else {
-        cols.splice(item_2, 1);
+        if (item_2 > item_1) {
+          cols.splice(item_2 + 1, 1);
+        } else {
+          cols.splice(item_2, 1);
+        }
+
+        this.setState({ dragged: null });
       }
-
-      this.setState({ dragged: null });
     }
   }
 

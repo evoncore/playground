@@ -3,6 +3,18 @@ import 'antd/lib/layout/style/css';
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import { Button } from 'antd';
 
+var index = (node) => {
+  if (node && node.parentNode) {
+    var children = node.parentNode.childNodes;
+    var num = 0;
+    for (var i = 0; i < children.length; i++) {
+      if (children[i] == node) return num;
+      if (children[i].nodeType == 1) num++;
+    }
+    return -1;
+  }
+};
+
 class Dashboard extends React.Component {
 
   constructor(props) {
@@ -13,7 +25,7 @@ class Dashboard extends React.Component {
       colClass: 'ant-col',
       columns: null,
       dragged: null,
-      editable: false,
+      editable: true,
       spanSize: (24 / this.props.numberOfColumns) || 24
     };
   }
@@ -36,26 +48,13 @@ class Dashboard extends React.Component {
   dragBegin(e) {
     if (this.state.editable) {
       this.setState({
-        dragged: e.target.closest('.draggable'),
-        draggedParent: e.target.closest('.draggable').closest('.' + this.state.colClass + '-' + this.state.spanSize)
+        dragged: e.target.closest('.draggable')
       });
     }
   }
 
   dragEnd(e) {
     if (this.state.editable) {
-      var index = (node) => {
-        if (node && node.parentNode) {
-          var children = node.parentNode.childNodes;
-          var num = 0;
-          for (var i = 0; i < children.length; i++) {
-            if (children[i] == node) return num;
-            if (children[i].nodeType == 1) num++;
-          }
-          return -1;
-        }
-      };
-
       var droppedIndex = index(e.target.closest('.' + this.state.colClass + '-' + this.state.spanSize)) - 1;
       var draggedIndex = index(this.state.dragged) - 1;
 
@@ -76,8 +75,12 @@ class Dashboard extends React.Component {
   }
 
   onRemove(e) {
-    if (this.state.editable && e.target.classList.contains('dashboard-card-remove-btn'))
-      e.target.closest('.draggable').style.display = 'none';
+    if (this.state.editable && e.target.classList.contains('dashboard-card-remove-btn')) {
+      var cols = this.state.columns;
+
+      cols.splice(index(e.target.closest('.draggable')) - 1, 1);
+      this.setState({ columns: cols });
+    }
   }
 
   onEdit() {

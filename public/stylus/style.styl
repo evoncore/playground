@@ -166,15 +166,11 @@ header
 .dashboard
   button
     margin 5px
-  &.edit
-    for num in 1..24
-      .ant-col-{num}
-        border-right 1px solid #ccc
   .draggable
     position relative
-    margin 10px 5px
-    &:first-child
-      margin 5px
+
+.draggable
+  padding 5px
 
 .dashboard-card
   padding 1px 0
@@ -188,10 +184,10 @@ header
     width 100%
     button
       position absolute
-      top 7px
+      top 12px
       padding 5px
       margin 0
       &:nth-child(1)
-        right 7px
+        right 12px
   &-body
     padding 0 10px

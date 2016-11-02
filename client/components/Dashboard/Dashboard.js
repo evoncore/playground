@@ -1,6 +1,7 @@
 import React from 'react';
 import 'antd/lib/layout/style/css';
 import { Draggable, Droppable } from 'react-drag-and-drop';
+import { Button } from 'antd';
 
 class Dashboard extends React.Component {
 
@@ -154,7 +155,7 @@ class Dashboard extends React.Component {
 
   onRemove(e) {
     if (this.props.editable && e.target.classList.contains('dashboard-card-remove-btn')) {
-      e.target.closest('.draggable').parentNode.style.display = 'none';
+      e.target.closest('.draggable').style.display = 'none';
 
       this.setState({ columnsLength: this.state.columnsLength - 1 });
     }
@@ -177,7 +178,7 @@ class Dashboard extends React.Component {
                   col.map((child, childVal) => {
                     return (
                       <Draggable className="draggable" key={childVal}>
-                        {this.state.editable ? <button onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                        {this.state.editable ? <Button onClick={this.onRemove.bind(this)}>remove</Button> : ''}
                         {child}
                       </Draggable>
                     );
@@ -199,7 +200,7 @@ class Dashboard extends React.Component {
                    + this.state.nativeColumns[val].props.className : '')}>
                 <Draggable enabled={this.props.editable} className="draggable" key={val}>
                   {this.props.editable ?
-                    <button className="dashboard-card-remove-btn" onClick={this.onRemove.bind(this)}>remove</button> : ''}
+                    <Button className="dashboard-card-remove-btn" onClick={this.onRemove.bind(this)}>remove</Button> : ''}
                   {col}
                 </Draggable>
               </div>
@@ -222,7 +223,7 @@ class Dashboard extends React.Component {
               {col}
               <div className="dashboard-card-controls">
                 {this.props.editable ?
-                  <button className="dashboard-card-remove-btn icon-cross" onClick={this.onRemove.bind(this)}></button> : ''}
+                  <Button className="dashboard-card-remove-btn icon-cross" onClick={this.onRemove.bind(this)}></Button> : ''}
               </div>
             </Draggable>
           </div>
@@ -236,9 +237,9 @@ class Dashboard extends React.Component {
       <div className={"dashboard " + (this.props.editable ? 'edit' : '') + ' ' + this.state.rowClass} ref="dashboard">
         {this.props.editable ?
           <div>
-            <button onClick={this.setSpanSize.bind(this, 1)}>1</button>
-            <button onClick={this.setSpanSize.bind(this, 2)}>2</button>
-            <button onClick={this.setSpanSize.bind(this, 3)}>3</button>
+            <Button onClick={this.setSpanSize.bind(this, 1)}>1</Button>
+            <Button onClick={this.setSpanSize.bind(this, 2)}>2</Button>
+            <Button onClick={this.setSpanSize.bind(this, 3)}>3</Button>
           </div>
           : ''}
         {this.props.autoColumns ? this.renderAutoColumns.call(this) : this.renderColumns.call(this)}

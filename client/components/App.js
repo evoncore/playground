@@ -9,7 +9,7 @@ class App extends React.Component {
 
     this.state = {
       editable: true,
-      spanSize: 8
+      numberOfColumns: 3
     }
   }
 
@@ -24,7 +24,7 @@ class App extends React.Component {
     return (
       <div className="container" id="app">
         <Button style={{margin: '5px'}} onClick={this.edit.bind(this)}>edit</Button>
-        <Dashboard spanSize={this.state.spanSize} editable={this.state.editable}>
+        <Dashboard numberOfColumns={this.state.numberOfColumns} editable={this.state.editable}>
           <Widget title="title">text 1</Widget>
           <Widget title="title">text 2</Widget>
           <Widget title="title">text 3</Widget>

@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
       nativeColumns: null,
       columns: null,
       dragged: null,
-      spanSize: this.props.spanSize
+      spanSize: (24 / this.props.numberOfColumns) || 24
     };
   }
 
@@ -39,6 +39,7 @@ class Dashboard extends React.Component {
 
   dragBegin(e) {
     if (this.props.editable) {
+
       this.setState({
         dragged: e.target.closest('.draggable'),
         draggedParent: e.target.closest('.draggable').closest('.' + this.state.colClass + '-' + this.state.spanSize)

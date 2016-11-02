@@ -65,11 +65,12 @@ class Dashboard extends React.Component {
 
       if (!isNaN(item_1) && !isNaN(item_2)) {
         var cols = this.state.columns;
-        cols.splice(item_1, 0, cols[item_2]);
 
         if (item_2 > item_1) {
+          cols.splice(item_1, 0, cols[item_2]);
           cols.splice(item_2 + 1, 1);
         } else {
+          cols.splice(item_1 + 1, 0, cols[item_2]);
           cols.splice(item_2, 1);
         }
 

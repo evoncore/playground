@@ -209,7 +209,7 @@ class Dashboard extends React.Component {
       items.push(
         <Droppable className={this.state.colClass + '-' + this.state.spanSize} key={i}>
           <div onDrop={this.dragEnd.bind(this)}> {/* cant onDrop bind with <Droppable> and need one more div */}
-            {cols.splice(0, colsLength / colsSize)}
+            {cols.splice(0, Math.ceil(colsLength / colsSize))}
           </div>
         </Droppable>
       );

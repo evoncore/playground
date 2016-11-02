@@ -33,6 +33,7 @@ class App extends React.Component {
           <Widget title="title">text 4</Widget>
           <Widget title="title">text 5</Widget>
           <Widget title="title">text 6</Widget>
+          <Widget title="title">text 7</Widget>
         </Dashboard>
       </div>
     );
